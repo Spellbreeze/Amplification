@@ -2,7 +2,10 @@ CC=gcc
 # CFLAGS=-std=gnu99 #Uncomment if using GCC versions older than 5 (where it may otherwise throw some errors)
 CFLAGS=-O3 -g
 
-all: clean experimentation m2_experimentation
+all: clean experimentation m2_experimentation shared
+
+shared: shared_memory.o fr_util.o amplify.o memory_utils.o
+	$(CC) $(CFLAGS) $^ -o $@
 
 experimentation: experimentation.o fr_util.o amplify.o
 	$(CC) $(CFLAGS) $^ -o $@
@@ -20,5 +23,5 @@ amplify.o: amplify.c amplify.h
 	$(CC) $(CFLAGS)  -c $< 
 
 clean:
-	rm -f *.o *~ amplify fr_util experimentation m2_experimentation
+	rm -f *.o *~ amplify fr_util experimentation m2_experimentation shared
 
