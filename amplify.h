@@ -30,6 +30,8 @@ uint64_t leaky_run_b4(ADDR_PTR *cacheSet, ADDR_PTR *clearSet, ADDR_PTR trash, in
 uint64_t leaky_run_b3(ADDR_PTR *cacheSet, ADDR_PTR *clearSet, ADDR_PTR trash, int repetitions, int refresh);
 uint64_t leaky_run_b2(ADDR_PTR *cacheSet, ADDR_PTR *clearSet, ADDR_PTR trash, int repetitions, int refresh);
 
+uint64_t simple_run(ADDR_PTR *cacheSet, ADDR_PTR *clearSet, ADDR_PTR trash, int repetitions, int refresh);
+
 uint64_t leaky_refresh_b4(ADDR_PTR *cacheSet, ADDR_PTR *clearSet, ADDR_PTR trash); // Refreshing Appears to be largely ineffective
 uint64_t leaky_refresh_b3(ADDR_PTR *cacheSet, ADDR_PTR *clearSet, ADDR_PTR trash); // Refreshing Appears to be largely ineffective
 uint64_t leaky_refresh_b2(ADDR_PTR *cacheSet, ADDR_PTR *clearSet, ADDR_PTR trash); // Refreshing Appears to be largely ineffective

@@ -4,7 +4,7 @@ CFLAGS=-O3 -g
 
 all: clean experimentation m2_experimentation shared
 
-shared: shared_memory.o fr_util.o amplify.o memory_utils.o
+shared: shared_memory.o fr_util.o amplify.o memory_utils.o evset_generation.o list_utils.o
 	$(CC) $(CFLAGS) $^ -o $@
 
 experimentation: experimentation.o fr_util.o amplify.o
@@ -25,3 +25,5 @@ amplify.o: amplify.c amplify.h
 clean:
 	rm -f *.o *~ amplify fr_util experimentation m2_experimentation shared
 
+data_clean:
+	rm -rf data/medians/*.csv data/quartile/*.csv data/timings/*.csv

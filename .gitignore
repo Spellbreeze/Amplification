@@ -5,3 +5,5 @@
 experimentation
 m2_experimentation
 shared
+data/*
+*.py

@@ -49,8 +49,11 @@ uint64_t leaky_run(ADDR_PTR *cacheSet, ADDR_PTR evict, ADDR_PTR *clearSet, int r
   else if (dist == 3) {
     cycles_taken = leaky_run_b3(cacheSet, clearSet, trash, repetitions, refresh);
   }
-  else {
+  else if (dist == 2) {
     cycles_taken = leaky_run_b2(cacheSet, clearSet, trash, repetitions, refresh);
+  }
+  else {
+    cycles_taken = simple_run(cacheSet,clearSet,trash,repetitions,refresh);
   }
   return cycles_taken;
 }
@@ -196,6 +199,55 @@ uint64_t leaky_run_b2(ADDR_PTR *cacheSet, ADDR_PTR *clearSet, ADDR_PTR trash, in
   return end - start;
 }
 
+uint64_t simple_run(ADDR_PTR *cacheSet, ADDR_PTR *clearSet, ADDR_PTR trash, int repetitions, int refresh) {
+  uint64_t start = rdtsc_begin();
+  for (int rep = 0; rep < repetitions; rep++) {
+    
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    trash = maccess(cacheSet[0]+trash);
+    //*/
+
+    if (refresh && !(refresh > repetitions) && !(refresh & rep)) {
+      trash = leaky_refresh_b4(cacheSet, clearSet, trash);
+    }
+  }
+  uint64_t end = rdtsc_end();
+  return (end - start);
+}
+
 
 uint64_t leaky_refresh_b4(ADDR_PTR *cacheSet, ADDR_PTR *clearSet, ADDR_PTR trash) {
   trash = maccess(clearSet[0]+trash);
@@ -311,7 +363,7 @@ uint64_t showtime_llc_eviction(ADDR_PTR *cacheSet, ADDR_PTR *clearSet, ADDR_PTR 
   for (volatile int i = 0; i < 2048; i++);
 
   // Prepare LLC
-  trash = maccess(llc_candidate);
+  trash = maccess(llc_candidate + trash);
   if (flushed) {
     lmfence();
     clflush(llc_candidate);
